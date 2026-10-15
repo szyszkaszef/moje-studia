@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="description" content="Grafik zajęć, zadania i notatki na studia">
+  <!-- iPhone: aplikacja otwierana z ikony na ekranie głównym, bez paska Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Studia">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <title>Moje Studia</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="top">
+    <!-- Przycisk menu: widoczny tylko na telefonie/wąskim oknie -->
+    <button class="menu-btn" data-action="toggleMenu" aria-label="Otwórz menu">☰</button>
+    <div>
+      <h1>Moje Studia</h1>
+      <p id="today-label"></p>
+    </div>
+  </header>
+
+  <main id="view"></main>
+
+  <!-- Lewy panel nawigacji -->
+  <div class="scrim" data-action="closeMenuBtn"></div>
+  <aside id="sidebar" aria-label="Menu"></aside>
+
+  <dialog id="modal"></dialog>
+  <div id="viewer" hidden></div>
+  <div id="toast" role="status"></div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
