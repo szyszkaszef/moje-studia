@@ -26,12 +26,15 @@ export default defineConfig({
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
-      workbox: {
+      // własny service worker (sw.js): offline + powiadomienia push
+      strategies: 'injectManifest',
+      srcDir: '.',
+      filename: 'sw.js',
+      injectManifest: {
+        rollupFormat: 'iife', // klasyczny service worker (działa też na starszych iPhone'ach)
         // zapamiętaj wszystkie pliki aplikacji, także silnik PDF (.mjs) i grafik (.json), żeby działała bez internetu
         globPatterns: ['**/*.{js,mjs,css,html,json,png,svg,webmanifest}'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
-        navigateFallback: '/index.html',
-        cleanupOutdatedCaches: true,
       },
     }),
   ],

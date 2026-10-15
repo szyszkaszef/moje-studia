@@ -13,6 +13,7 @@ import { renderNav } from './nav.js';
 import { hydrateReader } from './reader.js';
 import { tick } from './pomodoro.js';
 import { initSync } from './sync.js';
+import { hydratePush } from './push.js';
 
 const VIEWS = { today: renderToday, schedule: renderSchedule, tasks: renderTasks, learn: renderLearn, notes: renderNotes, settings: renderSettings };
 
@@ -26,6 +27,7 @@ function render() {
   view.innerHTML = VIEWS[S.ui.tab]();
   hydrateReader(view); // podstawia zdjęcia, wczytuje pliki tekstowe i rysuje PDF-y z magazynu
   afterRender(); // dopasowuje wysokość pól tekstowych w notatce
+  if (S.ui.tab === 'settings') hydratePush(); // pokazuje stan powiadomień na tym urządzeniu
   renderNav();
   window.scrollTo(0, y);
 }

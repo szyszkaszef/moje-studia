@@ -4,6 +4,7 @@ import { esc, todayISO } from './util.js';
 import { actions, changes, rerender, toast, segmented } from './ui.js';
 import { allFiles, blobToDataUrl, restoreFiles } from './files.js';
 import { renderSyncCard } from './sync.js';
+import { renderPushCard } from './push.js';
 
 export function applyAppearance() {
   const root = document.documentElement;
@@ -18,6 +19,9 @@ export function renderSettings() {
   return `
     <h2>Konto i synchronizacja</h2>
     ${renderSyncCard()}
+
+    <h2>Powiadomienia</h2>
+    ${renderPushCard()}
 
     <h2>Wygląd</h2>
     <div class="card">

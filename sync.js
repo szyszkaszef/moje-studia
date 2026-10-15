@@ -253,6 +253,10 @@ export function renderSyncCard() {
     </div></div>`;
 }
 
+// Dla push.js: klient Supabase i zalogowany użytkownik
+export const getClient = () => sb;
+export const getUser = () => user;
+
 // ---------- Start ----------
 export async function initSync() {
   if (!sb) { paint(); return; }
