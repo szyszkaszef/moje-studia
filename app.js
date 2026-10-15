@@ -12,6 +12,7 @@ import { renderSettings, applyAppearance } from './settings.js';
 import { renderNav } from './nav.js';
 import { hydrateReader } from './reader.js';
 import { tick } from './pomodoro.js';
+import { initSync } from './sync.js';
 
 const VIEWS = { today: renderToday, schedule: renderSchedule, tasks: renderTasks, learn: renderLearn, notes: renderNotes, settings: renderSettings };
 
@@ -62,5 +63,5 @@ setInterval(() => { if (S.ui.tab === 'today' && !modalEl.open) render(); }, 6000
 
 fetch('/schedule.json')
   .then((r) => r.json())
-  .then((data) => { setSchedule(data); initSubjects(); migrateNotes(); render(); tick(); })
+  .then((data) => { setSchedule(data); initSubjects(); migrateNotes(); render(); tick(); initSync(); })
   .catch(() => { document.getElementById('view').textContent = 'Nie udało się wczytać grafiku (schedule.json).'; });

@@ -52,8 +52,13 @@ function load() {
 
 export const S = load();
 
+// sync.js podpina tu funkcję, która po każdym zapisie sprawdza, czy trzeba wysłać zmiany do chmury
+let saveHook = () => {};
+export const setSaveHook = (fn) => { saveHook = fn; };
+
 export function save() {
   try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {}
+  saveHook();
 }
 
 export function replaceState(obj) {

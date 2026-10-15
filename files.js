@@ -26,12 +26,31 @@ async function tx(mode, fn) {
 
 const urls = new Map(); // id -> adres blob: (cache, żeby nie tworzyć w kółko)
 
-export const putFile = (id, blob) => tx('readwrite', (s) => s.put({ id, blob }));
-export const getFile = (id) => tx('readonly', (s) => s.get(id)).then((r) => r?.blob);
+// Punkty zaczepienia dla synchronizacji (sync.js): wysyłanie nowych plików do chmury,
+// usuwanie ich stamtąd i pobieranie plików, których jeszcze nie ma na tym urządzeniu.
+export const fileHooks = { onPut: null, onDelete: null, fetchMissing: null };
+
+const putLocal = (id, blob) => tx('readwrite', (s) => s.put({ id, blob }));
+export const getFileLocal = (id) => tx('readonly', (s) => s.get(id)).then((r) => r?.blob);
 export const allFiles = () => tx('readonly', (s) => s.getAll());
-export function delFile(id) {
+
+export async function putFile(id, blob) {
+  await putLocal(id, blob);
+  fileHooks.onPut?.(id, blob);
+}
+
+export async function getFile(id) {
+  const local = await getFileLocal(id);
+  if (local) return local;
+  const remote = await fileHooks.fetchMissing?.(id).catch(() => null);
+  if (remote) { await putLocal(id, remote); return remote; }
+  return undefined;
+}
+
+export async function delFile(id) {
   if (urls.has(id)) { URL.revokeObjectURL(urls.get(id)); urls.delete(id); }
-  return tx('readwrite', (s) => s.delete(id));
+  await tx('readwrite', (s) => s.delete(id));
+  fileHooks.onDelete?.(id);
 }
 
 export async function fileUrl(id) {

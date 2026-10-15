@@ -3,6 +3,7 @@ import { S, save, replaceState, wipeAll } from './store.js';
 import { esc, todayISO } from './util.js';
 import { actions, changes, rerender, toast, segmented } from './ui.js';
 import { allFiles, blobToDataUrl, restoreFiles } from './files.js';
+import { renderSyncCard } from './sync.js';
 
 export function applyAppearance() {
   const root = document.documentElement;
@@ -15,6 +16,9 @@ export function applyAppearance() {
 export function renderSettings() {
   const st = S.settings;
   return `
+    <h2>Konto i synchronizacja</h2>
+    ${renderSyncCard()}
+
     <h2>Wygląd</h2>
     <div class="card">
       <div class="setting"><span>Motyw</span>${segmented('setTheme', [['auto', 'Auto'], ['light', 'Jasny'], ['dark', 'Ciemny']], st.theme)}</div>
